@@ -6,6 +6,7 @@ def simulate(n):
   lst[0] = 1
   recieved = []
   recieved.append(0)
+  count = 0
   while len(recieved) > 0:
     next_recieved = []
     for ind in recieved:
@@ -16,14 +17,16 @@ def simulate(n):
         else:
           lst[package] = 1
           next_recieved.append(package)
+    count += 1
     recieved = next_recieved
-  return (sum(lst) / n) * 100
+  return (sum(lst) / n) * 100, count
 
 
 def my_algorithm(n):
   lst = [0] * n
   lst[0] = 1
   recieved = []
+  count = 0
   recieved.append(0)
   while len(recieved) > 0:
     next_recieved = []
@@ -35,8 +38,9 @@ def my_algorithm(n):
         else:
           lst[package] = 1
           next_recieved.append(package)
+    count += 1
     recieved = next_recieved
-  return (sum(lst) / n) * 100
+  return (sum(lst) / n) * 100, count
 
 
 
@@ -55,16 +59,24 @@ if args[2] == '-i':
   i = int(args[3])
 
 if len(args) > 4 and args[4] == "--my-algorithm":
-  s = 0
+  s, c = 0, 0
   for _ in range(i):
-    s += my_algorithm(n)
+    s1, c1 = my_algorithm(n)
+    s += s1
+    c += c1
   s /= i
+  c /= i
   print("In " + str(s) + "%% cases all nodes recieved the packet")
+  print(str(c) + " iterations")
 else:
-  s = 0
+  s, c = 0, 0
   for _ in range(i):
-    s += simulate(n)
+    s1, c1 = simulate(n)
+    s += s1
+    c += c1
   s /= i
+  c /= i
   print("In " + str(s) + "%% cases all nodes recieved the packet")
+  print(str(c) + " iterations")
 
 #print(sys.argv)
